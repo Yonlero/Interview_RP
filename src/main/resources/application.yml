@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    default: local-dev
   h2:
     console:
       enabled: true
@@ -13,5 +15,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    hibernate:
+      ddl-auto: create-drop
 server:
   port: 8080
