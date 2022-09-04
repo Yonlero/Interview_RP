@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 public interface IClientService {
     Page<ClientDTO> findAll(Pageable pageable);
 
-    ClientDTO findObjectById();
+    ClientDTO findObjectById(String uuid);
 
-    ClientDTO createObject();
+    ClientDTO createObject(ClientDTO newClientDTO);
 
-    ClientDTO updateObject();
+    ClientDTO updateObject(ClientDTO updatedClientDTO);
 
     void deleteObject();
 }

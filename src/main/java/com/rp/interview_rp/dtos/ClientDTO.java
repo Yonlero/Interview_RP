@@ -3,7 +3,6 @@ package com.rp.interview_rp.dtos;
 import com.rp.interview_rp.model.entities.AddressEntity;
 import com.rp.interview_rp.model.entities.EquipmentEntity;
 import com.rp.interview_rp.model.entities.OrderService;
-import com.rp.interview_rp.model.entities.interfaces.IEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTO implements IEntity {
+public class ClientDTO {
     private UUID id;
     private String name;
     private String cellphone;

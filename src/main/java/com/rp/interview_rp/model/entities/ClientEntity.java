@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
@@ -40,6 +41,7 @@ public class ClientEntity implements IEntity {
     @NotNull(message = "Cellphone can't be null")
     private String cellphone;
     @NotNull(message = "Email can't be null")
+    @Email
     private String email;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     @NotNull(message = "Equipments can't be null")

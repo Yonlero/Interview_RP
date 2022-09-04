@@ -3,6 +3,7 @@ package com.rp.interview_rp.services;
 import com.rp.interview_rp.model.entities.ClientEntity;
 import com.rp.interview_rp.model.repositories.IClientRepository;
 import com.rp.interview_rp.model.services.ClientService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,10 +36,20 @@ public class ClientServiceTest {
         assertThat(result.stream().toList().toString()).isEqualTo(getExpectedResponse().stream().toList().toString());
     }
 
+    @Test
+    @Disabled
+    public void testCreateNewClient() {
+        when(clientRepository.save(getExpectedResponse().get().findFirst().get())).thenReturn(
+                getExpectedResponse().get().findFirst().get());
+        ClientEntity result = clientRepository.save(getExpectedResponse().get().findFirst().get());
+        assertThat(result).isEqualTo(getExpectedResponse().get().findFirst().get());
+    }
+
     private PageImpl<ClientEntity> getExpectedResponse() {
         return new PageImpl<>(List.of(
-                ClientEntity.builder().id(UUID.fromString("c9d9fd45-3768-4073-9383-3b4f09ef5cf5")).name("Test_Name_1").email("Test_1@Test.com").cellphone("11111111111").build(),
-                ClientEntity.builder().id(UUID.fromString("dd1f9341-dfab-46a5-bf08-28baaa5687db")).name("Test_Name_2").email("Test_2@Test.com").cellphone("22222222222").build()
-        ));
+                ClientEntity.builder().id(UUID.fromString("c9d9fd45-3768-4073-9383-3b4f09ef5cf5")).name("Test_Name_1")
+                        .email("Test_1@Test.com").cellphone("11111111111").build(),
+                ClientEntity.builder().id(UUID.fromString("dd1f9341-dfab-46a5-bf08-28baaa5687db")).name("Test_Name_2")
+                        .email("Test_2@Test.com").cellphone("22222222222").build()));
     }
 }
