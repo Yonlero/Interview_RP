@@ -11,5 +11,5 @@ public interface IOrderServiceController {
 
     ResponseEntity<OrderServiceDTO> postCreateNewOrderService(OrderServiceDTO orderServiceDTO);
 
-    ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(String uuid);
+    ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(String id);
 }

@@ -4,6 +4,7 @@ import com.rp.interview_rp.controller.interfaces.IController;
 import com.rp.interview_rp.controller.interfaces.IOrderServiceController;
 import com.rp.interview_rp.dtos.OrderServiceDTO;
 import com.rp.interview_rp.model.services.OrderServiceImp;
+import com.rp.interview_rp.model.services.interfaces.IOrderService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 import static com.rp.interview_rp.model.enums.OrderStatus.PENDING;
 
@@ -26,7 +29,7 @@ import static com.rp.interview_rp.model.enums.OrderStatus.PENDING;
 @RestController
 @RequestMapping("/rp/orders")
 public class OrderServiceController implements IController, IOrderServiceController {
-    private final OrderServiceImp service;
+    private final IOrderService service;
 
     public OrderServiceController(OrderServiceImp service) {
         this.service = service;
@@ -66,8 +69,13 @@ public class OrderServiceController implements IController, IOrderServiceControl
     }
 
     @Override
-    public ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(String uuid) {
-        return null;
+    @GetMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Return a OrderServiceDTO"),
+            @ApiResponse(responseCode = "404", description = "Not Found Id")
+    })
+    public ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(@PathVariable String id) {
+        return ResponseEntity.ok(service.findConsultOrderServiceById(UUID.fromString(id)));
     }
 
     private URI buildUri(OrderServiceDTO orderServiceDTO) {

@@ -3,7 +3,6 @@ package com.rp.interview_rp.services;
 import com.rp.interview_rp.model.entities.ClientEntity;
 import com.rp.interview_rp.model.repositories.IClientRepository;
 import com.rp.interview_rp.model.services.ClientService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,7 +36,6 @@ public class ClientServiceTest {
     }
 
     @Test
-    @Disabled
     public void testCreateNewClient() {
         when(clientRepository.save(getExpectedResponse().get().findFirst().get())).thenReturn(
                 getExpectedResponse().get().findFirst().get());

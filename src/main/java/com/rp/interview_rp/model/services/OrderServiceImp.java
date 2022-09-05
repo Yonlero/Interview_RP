@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +38,10 @@ public record OrderServiceImp(IOrderServiceRepository repository) implements ISe
 
     @Override
     public OrderServiceDTO findConsultOrderServiceById(UUID id) {
-        return null;
+        return convertOrderEntityToDto(repository.findById(id).orElseThrow(() -> {
+                    throw new NotFoundException("Id not found");
+                })
+        );
     }
 
     @Override

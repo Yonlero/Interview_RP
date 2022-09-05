@@ -1,5 +1,6 @@
 package com.rp.interview_rp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rp.interview_rp.model.entities.ClientEntity;
 import com.rp.interview_rp.model.entities.EquipmentEntity;
 import com.rp.interview_rp.model.enums.OrderStatus;
@@ -25,8 +26,11 @@ public class OrderServiceDTO {
     private ClientEntity client;
     private Set<EquipmentEntity> equipments;
     private OrderStatus status;
-    private String description;
+    private String problem_description;
+    private String solution_description;
     private String order_problems;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
     private LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
     private LocalDateTime updatedAt;
 }
