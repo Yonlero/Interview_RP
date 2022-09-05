@@ -41,14 +41,4 @@ public record ClientService(IClientRepository repository) implements IClientServ
         ClientEntity newClient = convertClientDtoToEntity(newClientDTO);
         return convertClientEntityToDto(repository.save(newClient));
     }
-
-    @Override
-    public ClientDTO updateObject(ClientDTO updatedClientDTO) {
-        return null;
-    }
-
-    @Override
-    public void deleteObject() {
-
-    }
 }

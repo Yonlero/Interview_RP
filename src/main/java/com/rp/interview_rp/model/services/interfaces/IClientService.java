@@ -12,8 +12,4 @@ public interface IClientService {
     ClientDTO findObjectById(String uuid);
 
     ClientDTO createObject(ClientDTO newClientDTO);
-
-    ClientDTO updateObject(ClientDTO updatedClientDTO);
-
-    void deleteObject();
 }

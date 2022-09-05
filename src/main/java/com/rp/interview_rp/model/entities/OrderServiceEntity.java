@@ -16,6 +16,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -47,6 +48,8 @@ public class OrderServiceEntity implements IEntity {
             inverseJoinColumns = {@JoinColumn(name = "equipment_id")})
     private Set<EquipmentEntity> equipments;
     private OrderStatus status;
+    @NotBlank(message = "Responsible filed mustn't be null or blank")
+    private String responsible;
     private String problem_description;
     private String solution_description;
     private String order_problems;

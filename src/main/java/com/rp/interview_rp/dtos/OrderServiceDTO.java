@@ -26,6 +26,7 @@ public class OrderServiceDTO {
     private ClientEntity client;
     private Set<EquipmentEntity> equipments;
     private OrderStatus status;
+    private String responsible;
     private String problem_description;
     private String solution_description;
     private String order_problems;
