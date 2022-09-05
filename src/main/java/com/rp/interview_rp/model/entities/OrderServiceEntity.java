@@ -1,5 +1,6 @@
 package com.rp.interview_rp.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rp.interview_rp.model.entities.interfaces.IEntity;
 import com.rp.interview_rp.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -13,17 +14,12 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "tb_order_service")
@@ -32,7 +28,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderService implements IEntity {
+@JsonIgnoreProperties(value = "client", allowSetters = true)
+public class OrderServiceEntity implements IEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -43,17 +40,21 @@ public class OrderService implements IEntity {
     @ColumnDefault("random_uuid()")
     @Type(type = "uuid-char")
     private UUID id;
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id")
     private ClientEntity client;
-    @OneToMany(mappedBy = "order")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = EAGER)
+    @JoinTable(name = "order_equipments",
+            joinColumns = {@JoinColumn(name = "client_id")},
+            inverseJoinColumns = {@JoinColumn(name = "equipment_id")}
+    )
     private Set<EquipmentEntity> equipments;
     private OrderStatus status;
+    private String description;
+    private String order_problems;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    private String description;
-    private String order_problems;
 }

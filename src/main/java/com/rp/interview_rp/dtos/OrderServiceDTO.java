@@ -1,8 +1,8 @@
 package com.rp.interview_rp.dtos;
 
-import com.rp.interview_rp.model.entities.AddressEntity;
+import com.rp.interview_rp.model.entities.ClientEntity;
 import com.rp.interview_rp.model.entities.EquipmentEntity;
-import com.rp.interview_rp.model.entities.OrderServiceEntity;
+import com.rp.interview_rp.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,14 +20,13 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTO {
+public class OrderServiceDTO {
     private UUID id;
-    private String name;
-    private String cellphone;
-    private String email;
+    private ClientEntity client;
     private Set<EquipmentEntity> equipments;
-    private Set<OrderServiceEntity> orders;
-    private AddressEntity address;
+    private OrderStatus status;
+    private String description;
+    private String order_problems;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
