@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.rp.interview_rp.model.enums.OrderStatus.PENDING;
 import static com.rp.interview_rp.model.utils.ConvertObjects.convertOrderDtoToEntity;
 import static com.rp.interview_rp.model.utils.ConvertObjects.convertOrderEntityToDto;
 
@@ -29,7 +30,9 @@ public record OrderServiceImp(IOrderServiceRepository repository) implements ISe
 
     @Override
     public Page<OrderServiceDTO> findPendentOrderService(Pageable pageable) {
-        return null;
+        List<OrderServiceDTO> outputList = repository.findAllByStatusIs(pageable, PENDING).stream()
+                .map(ConvertObjects::convertOrderEntityToDto).toList();
+        return new PageImpl<>(outputList);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.rp.interview_rp.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rp.interview_rp.model.entities.interfaces.IEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ import static javax.persistence.CascadeType.REFRESH;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"orders"}, allowSetters = true)
 public class ClientEntity implements IEntity {
     @Id
     @GeneratedValue(generator = "UUID")

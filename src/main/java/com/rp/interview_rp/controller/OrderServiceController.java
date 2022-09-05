@@ -43,10 +43,13 @@ public class OrderServiceController implements IController, IOrderServiceControl
     }
 
     @Override
+    @GetMapping("/pendents")
+    @ApiResponse(responseCode = "200", description = "Return a page with N orders")
     public ResponseEntity<Page<OrderServiceDTO>> getPendentOrderService(
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "5") Integer size) {
-        return null;
+        log.info("Getting clients - OrderController");
+        return ResponseEntity.ok(service.findPendentOrderService(PageRequest.of(page, size)));
     }
 
     @Override

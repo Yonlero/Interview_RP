@@ -28,7 +28,7 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value = "client", allowSetters = true)
+@JsonIgnoreProperties(value = {"client"}, allowSetters = true)
 public class OrderServiceEntity implements IEntity {
     @Id
     @GeneratedValue(generator = "UUID")
