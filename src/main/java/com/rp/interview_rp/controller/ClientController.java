@@ -3,6 +3,7 @@ package com.rp.interview_rp.controller;
 import com.rp.interview_rp.controller.interfaces.IClientController;
 import com.rp.interview_rp.controller.interfaces.IController;
 import com.rp.interview_rp.dtos.ClientDTO;
+import com.rp.interview_rp.model.services.ClientService;
 import com.rp.interview_rp.model.services.interfaces.IClientService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @Slf4j
@@ -27,7 +29,7 @@ import java.net.URI;
 public class ClientController implements IController, IClientController {
     private final IClientService service;
 
-    public ClientController(IClientService service) {
+    public ClientController(ClientService service) {
         this.service = service;
     }
 
@@ -45,9 +47,10 @@ public class ClientController implements IController, IClientController {
     @GetMapping("/clients/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Return a ClientDTO"),
-            @ApiResponse(responseCode = "404", description = "Not Found Id")
+            @ApiResponse(responseCode = "404", description = "Not Found Id"),
+            @ApiResponse(responseCode = "400", description = "Invalid param request")
     })
-    public ResponseEntity<ClientDTO> getFindClientById(@PathVariable String id) {
+    public ResponseEntity<ClientDTO> getFindClientById(@Valid @PathVariable String id) {
         log.info("Getting clients - ClientController");
         return ResponseEntity.ok(service.findObjectById(id));
     }
@@ -58,7 +61,7 @@ public class ClientController implements IController, IClientController {
             @ApiResponse(responseCode = "201", description = "Create a new Client and return it"),
             @ApiResponse(responseCode = "204", description = "Invalid Body")
     })
-    public ResponseEntity<ClientDTO> postCreateNewClient(@RequestBody(required = true) ClientDTO newClientDTO) {
+    public ResponseEntity<ClientDTO> postCreateNewClient(@Valid @RequestBody(required = true) ClientDTO newClientDTO) {
         log.info("Creating a new client - ClientController");
         ClientDTO newClient = service.createObject(newClientDTO);
         return ResponseEntity.created(buildUri(newClient)).body(newClient);

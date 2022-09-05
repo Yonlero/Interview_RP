@@ -17,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -42,6 +43,7 @@ public class OrderServiceEntity implements IEntity {
     private UUID id;
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id")
+    @NotNull
     private ClientEntity client;
     @ManyToMany(cascade = CascadeType.ALL, fetch = EAGER)
     @JoinTable(name = "order_equipments", joinColumns = {@JoinColumn(name = "client_id")},

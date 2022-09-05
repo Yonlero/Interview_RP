@@ -2,6 +2,7 @@ package com.rp.interview_rp.model.services;
 
 import com.rp.interview_rp.dtos.ClientDTO;
 import com.rp.interview_rp.model.entities.ClientEntity;
+import com.rp.interview_rp.model.exceptions.NotFoundException;
 import com.rp.interview_rp.model.repositories.IClientRepository;
 import com.rp.interview_rp.model.services.interfaces.IClientService;
 import com.rp.interview_rp.model.services.interfaces.IService;
@@ -10,13 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.rp.interview_rp.model.utils.ConvertObjects.convertClientDtoToEntity;
 import static com.rp.interview_rp.model.utils.ConvertObjects.convertClientEntityToDto;
+import static java.util.Objects.requireNonNull;
 
 @Service
 public record ClientService(IClientRepository repository) implements IClientService, IService {
@@ -38,6 +39,7 @@ public record ClientService(IClientRepository repository) implements IClientServ
 
     @Override
     public ClientDTO createObject(ClientDTO newClientDTO) {
+        requireNonNull(newClientDTO, "The request body is mandatory and can't be null");
         ClientEntity newClient = convertClientDtoToEntity(newClientDTO);
         return convertClientEntityToDto(repository.save(newClient));
     }

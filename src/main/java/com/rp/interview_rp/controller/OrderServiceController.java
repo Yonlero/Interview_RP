@@ -3,6 +3,7 @@ package com.rp.interview_rp.controller;
 import com.rp.interview_rp.controller.interfaces.IController;
 import com.rp.interview_rp.controller.interfaces.IOrderServiceController;
 import com.rp.interview_rp.dtos.OrderServiceDTO;
+import com.rp.interview_rp.model.exceptions.NullEntityException;
 import com.rp.interview_rp.model.services.OrderServiceImp;
 import com.rp.interview_rp.model.services.interfaces.IOrderService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
 
@@ -61,9 +63,12 @@ public class OrderServiceController implements IController, IOrderServiceControl
             @ApiResponse(responseCode = "201", description = "Create a new order and return it"),
             @ApiResponse(responseCode = "204", description = "Invalid Body")
     })
-    public ResponseEntity<OrderServiceDTO> postCreateNewOrderService(@RequestBody(required = true) OrderServiceDTO orderServiceDTO) {
+    public ResponseEntity<OrderServiceDTO> postCreateNewOrderService(@Valid @RequestBody(required = true) OrderServiceDTO orderServiceDTO) {
         log.info("Creating a new order - OrderController");
         orderServiceDTO.setStatus(PENDING);
+        if (orderServiceDTO.getClient() == null || orderServiceDTO.getResponsible() == null) {
+            throw new NullEntityException("Check your body fields, Client ID and Responsible can't be null");
+        }
         OrderServiceDTO newOrder = service.createNewOrderService(orderServiceDTO);
         return ResponseEntity.created(buildUri(newOrder)).body(newOrder);
     }
@@ -72,9 +77,10 @@ public class OrderServiceController implements IController, IOrderServiceControl
     @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Return a OrderServiceDTO"),
-            @ApiResponse(responseCode = "404", description = "Not Found Id")
+            @ApiResponse(responseCode = "404", description = "Not Found Id"),
+            @ApiResponse(responseCode = "400", description = "Invalid param request")
     })
-    public ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(@PathVariable String id) {
+    public ResponseEntity<OrderServiceDTO> getConsultOrderServiceById(@Valid @PathVariable String id) {
         return ResponseEntity.ok(service.findConsultOrderServiceById(UUID.fromString(id)));
     }
 
