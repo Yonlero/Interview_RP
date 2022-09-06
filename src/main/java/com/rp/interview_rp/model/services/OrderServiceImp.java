@@ -51,4 +51,12 @@ public record OrderServiceImp(IOrderServiceRepository repository) implements ISe
         OrderServiceEntity newOrderEntity = convertOrderDtoToEntity(newOrder);
         return convertOrderEntityToDto(repository.save(newOrderEntity));
     }
+
+    @Override
+    public OrderServiceDTO updateOrderService(OrderServiceDTO updateOrder) {
+        requireNonNull(updateOrder, "The request body is mandatory and can't be null");
+        this.findConsultOrderServiceById(updateOrder.getId());
+        OrderServiceEntity newOrderEntity = convertOrderDtoToEntity(updateOrder);
+        return convertOrderEntityToDto(repository.save(newOrderEntity));
+    }
 }

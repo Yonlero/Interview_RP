@@ -14,4 +14,6 @@ public interface IOrderService {
     OrderServiceDTO findConsultOrderServiceById(UUID id);
 
     OrderServiceDTO createNewOrderService(OrderServiceDTO newOrder);
+
+    OrderServiceDTO updateOrderService(OrderServiceDTO orderServiceDTO);
 }

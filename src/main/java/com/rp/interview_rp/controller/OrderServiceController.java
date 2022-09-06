@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +72,20 @@ public class OrderServiceController implements IController, IOrderServiceControl
         }
         OrderServiceDTO newOrder = service.createNewOrderService(orderServiceDTO);
         return ResponseEntity.created(buildUri(newOrder)).body(newOrder);
+    }
+
+    @Override
+    @PutMapping("/update")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Create a new order and return it"),
+            @ApiResponse(responseCode = "204", description = "Invalid Body")
+    })
+    public ResponseEntity<OrderServiceDTO> putUpdateOrderService(@Valid @RequestBody OrderServiceDTO orderServiceDTO) {
+        log.info("Updating a new order - OrderController");
+        if (orderServiceDTO.getClient() == null || orderServiceDTO.getResponsible() == null || orderServiceDTO.getId() == null) {
+            throw new NullEntityException("Check your body fields,Order_Id, Client ID and Responsible can't be null");
+        }
+        return ResponseEntity.ok(service.updateOrderService(orderServiceDTO));
     }
 
     @Override

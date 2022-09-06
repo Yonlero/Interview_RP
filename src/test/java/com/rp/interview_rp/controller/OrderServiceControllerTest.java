@@ -22,6 +22,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,6 +82,23 @@ class OrderServiceControllerTest {
     }
 
     @Test
+    void putUpdateOrderService() throws Exception {
+        when(orderServiceRepository.findById(getExpectedResponse().getContent().get(0).getId())).thenReturn(Optional.of(getExpectedResponse().getContent().get(0)));
+        when(orderServiceRepository.save(getExpectedResponse().getContent().get(0))).thenReturn(getExpectedResponse().getContent().get(0));
+        mockMvc.perform(put("/rp/orders/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(getExpectedResponse().getContent().get(0))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id")
+                        .value(getExpectedResponse().stream().toList().get(0).getId().toString()))
+                .andExpect(jsonPath("$.client.id")
+                        .value(getExpectedResponse().stream().toList().get(0).getClient().getId().toString()))
+                .andExpect(jsonPath("$.status")
+                        .value(getExpectedResponse().stream().toList().get(0).getStatus().toString()))
+                .andDo(print());
+    }
+
+    @Test
     void getConsultOrderServiceById() throws Exception {
         when(orderServiceRepository.findById(getExpectedResponse().getContent().get(0).getId())).thenReturn(Optional.of(getExpectedResponse().getContent().get(0)));
         mockMvc.perform(get("/rp/orders/eb7a8d0b-7c57-4b24-a426-c24578a65aea"))
@@ -95,14 +113,20 @@ class OrderServiceControllerTest {
     }
 
     private ClientEntity createClient() {
-        return ClientEntity.builder().id(UUID.fromString("c9d9fd45-3768-4073-9383-3b4f09ef5cf5")).name("Test_Name_1")
-                .email("Test_1@Test.com").cellphone("11111111111").build();
+        return ClientEntity.builder().id(UUID.fromString("c9d9fd45-3768-4073-9383-3b4f09ef5cf5"))
+                .name("Test_Name_1")
+                .email("Test_1@Test.com")
+                .cellphone("11111111111")
+                .build();
     }
 
     private PageImpl<OrderServiceEntity> getExpectedResponse() {
         return new PageImpl<>(List.of(
-                OrderServiceEntity.builder().id(UUID.fromString("eb7a8d0b-7c57-4b24-a426-c24578a65aea")).client(createClient()).status(OrderStatus.PENDING).build(),
-                OrderServiceEntity.builder().id(UUID.fromString("85347581-aa87-41bb-8afb-3f6677833563")).client(createClient()).status(OrderStatus.PENDING).build()
+                OrderServiceEntity.builder().id(UUID.fromString("eb7a8d0b-7c57-4b24-a426-c24578a65aea"))
+                        .client(createClient())
+                        .status(OrderStatus.PENDING)
+                        .responsible("Tec_1").build(),
+                OrderServiceEntity.builder().id(UUID.fromString("85347581-aa87-41bb-8afb-3f6677833563")).client(createClient()).status(OrderStatus.PENDING).responsible("Tec_2").build()
         ));
     }
 }

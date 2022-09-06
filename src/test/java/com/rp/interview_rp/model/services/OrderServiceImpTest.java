@@ -57,6 +57,13 @@ class OrderServiceImpTest {
         assertThat(result.toString()).isEqualTo(getExpectedResponse().getContent().get(0).toString());
     }
 
+    @Test
+    void updateOrderService() {
+        when(repository.save(getExpectedResponse().getContent().get(0))).thenReturn(getExpectedResponse().getContent().get(0));
+        OrderServiceEntity result = repository.save(getExpectedResponse().getContent().get(0));
+        assertThat(result.toString()).isEqualTo(getExpectedResponse().getContent().get(0).toString());
+    }
+
     private ClientEntity createClient() {
         return ClientEntity.builder().id(UUID.fromString("c9d9fd45-3768-4073-9383-3b4f09ef5cf5")).name("Test_Name_1")
                 .email("Test_1@Test.com").cellphone("11111111111").build();

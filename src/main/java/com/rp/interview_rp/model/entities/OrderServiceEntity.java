@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,9 +31,10 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value = {"client"}, allowSetters = true)
+@JsonIgnoreProperties(value = {"client"}, allowSetters = true, allowGetters = true)
 public class OrderServiceEntity implements IEntity {
     @Id
     @GeneratedValue(generator = "UUID")
