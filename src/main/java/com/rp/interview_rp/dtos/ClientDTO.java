@@ -1,8 +1,8 @@
 package com.rp.interview_rp.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rp.interview_rp.model.entities.AddressEntity;
-import com.rp.interview_rp.model.entities.OrderServiceEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +25,8 @@ public class ClientDTO {
     private String name;
     private String cellphone;
     private String email;
-    private Set<OrderServiceEntity> orders;
+    @JsonIgnoreProperties(value = {"client"})
+    private Set<OrderServiceDTO> orders;
     private AddressEntity address;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT-3")
     private LocalDateTime createdAt;
