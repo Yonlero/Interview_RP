@@ -2,6 +2,10 @@
 
 Service API for RP Interview
 
+# Requisites To Run
+
+- Java 17
+
 # Endpoints Client
 
 - GET - http://localhost:8080/rp/clients ( Get all clients )
@@ -10,7 +14,7 @@ Service API for RP Interview
 
 # Endpoints Order
 
-- GET - http://localhost:8080/rp/orders ( Get all clients )
+- GET - http://localhost:8080/rp/orders ( Get all orders )
 - GET - http://localhost:8080/rp/orders/pendents ( Get all pendents orders )
 - GET - http://localhost:8080/rp/orders/{id} ( Get an orders by Id )
 - POST - http://localhost:8080/rp/orders/create ( Create a new order )
