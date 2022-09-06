@@ -1,0 +1,243 @@
+{
+  "info": {
+    "_postman_id": "577b5a35-7f9f-49df-b79c-15a80445c82c",
+    "name": "Interview_RP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Client Requests",
+      "item": [
+        {
+          "name": "Clients By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/rp/clients/e91dcb40-bef8-4e65-b16e-b334211e0731",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "clients",
+                "e91dcb40-bef8-4e65-b16e-b334211e0731"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Clients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/rp/clients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Client",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test_1_Post\",\r\n    \"cellphone\": \"22922222222\",\r\n    \"email\": \"testingPost@testing.com\",\r\n    \"address\": {\r\n        \"number\": \"11\",\r\n        \"district\": \"Test_District_Post\",\r\n        \"street\": \"Test_Street_Post\",\r\n        \"city\": \"Test_City_Post\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/rp/clients/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "clients",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order Requests",
+      "item": [
+        {
+          "name": "Create Order Service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"client\": {\r\n        \"id\": \"e91dcb40-bef8-4e65-b16e-b334211e0731\"\r\n    },\r\n    \"equipments\": [\r\n            {\r\n                \"type\": \"Eletronic\",\r\n                \"brand\": \"Samsung\"\r\n            },\r\n            {\r\n                \"type\": \"Eletronic\",\r\n                \"brand\": \"Xiaomi\"\r\n            }\r\n        ],\r\n    \"responsible\": \"Tec_1\",\r\n    \"problem_description\": \"Equipments don't turn on\",\r\n    \"solution_description\": \"\",\r\n    \"order_problems\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/rp/orders/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Service",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"d1f76101-3184-41fe-96ce-eb4ea5eb1450\",\r\n    \"client\": {\r\n        \"id\": \"e91dcb40-bef8-4e65-b16e-b334211e0731\"\r\n    },\r\n    \"equipments\": [\r\n            {\r\n                \"type\": \"Eletronic\",\r\n                \"brand\": \"Samsung\"\r\n            },\r\n            {\r\n                \"type\": \"Eletronic\",\r\n                \"brand\": \"Xiaomi\"\r\n            }\r\n        ],\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"responsible\": \"Tec_2_Updated\",\r\n    \"problem_description\": \"Equipments don't turn on\",\r\n    \"solution_description\": \"\",\r\n    \"order_problems\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/rp/orders/update",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Service Status only",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"d1f76101-3184-41fe-96ce-eb4ea5eb1450\",\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/rp/orders/updatestatus/d1f76101-3184-41fe-96ce-eb4ea5eb1450",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders",
+                "updatestatus",
+                "d1f76101-3184-41fe-96ce-eb4ea5eb1450"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/rp/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders by Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/rp/orders/d1f76101-3184-41fe-96ce-eb4ea5eb1450",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders",
+                "d1f76101-3184-41fe-96ce-eb4ea5eb1450"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Pendent Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/rp/orders/pendents",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rp",
+                "orders",
+                "pendents"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
