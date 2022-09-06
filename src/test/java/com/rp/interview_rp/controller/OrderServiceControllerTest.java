@@ -1,6 +1,7 @@
 package com.rp.interview_rp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rp.interview_rp.dtos.OrderServiceStatusOnly;
 import com.rp.interview_rp.model.entities.ClientEntity;
 import com.rp.interview_rp.model.entities.OrderServiceEntity;
 import com.rp.interview_rp.model.enums.OrderStatus;
@@ -19,8 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.rp.interview_rp.model.enums.OrderStatus.IN_PROGRESS;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -99,6 +102,31 @@ class OrderServiceControllerTest {
     }
 
     @Test
+    void patchUpdateOrderServiceStatus() throws Exception {
+        OrderServiceEntity orderService = OrderServiceEntity.builder().id(UUID.fromString("eb7a8d0b-7c57-4b24-a426-c24578a65aea"))
+                .client(createClient())
+                .status(OrderStatus.PENDING)
+                .responsible("Tec_1").build();
+        OrderServiceEntity orderServiceInProgress = OrderServiceEntity.builder().id(UUID.fromString("eb7a8d0b-7c57-4b24-a426-c24578a65aea"))
+                .client(createClient())
+                .status(IN_PROGRESS)
+                .responsible("Tec_1").build();
+        when(orderServiceRepository.findById(orderService.getId())).thenReturn(Optional.of(orderService));
+        when(orderServiceRepository.save(orderService)).thenReturn(orderServiceInProgress);
+        mockMvc.perform(patch("/rp/orders/updatestatus/eb7a8d0b-7c57-4b24-a426-c24578a65aea")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(OrderServiceStatusOnly.builder().id(UUID.fromString("eb7a8d0b-7c57-4b24-a426-c24578a65aea")).status(IN_PROGRESS).build())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id")
+                        .value(getExpectedResponse().stream().toList().get(0).getId().toString()))
+                .andExpect(jsonPath("$.client.id")
+                        .value(getExpectedResponse().stream().toList().get(0).getClient().getId().toString()))
+                .andExpect(jsonPath("$.status")
+                        .value(IN_PROGRESS.toString()))
+                .andDo(print());
+    }
+
+    @Test
     void getConsultOrderServiceById() throws Exception {
         when(orderServiceRepository.findById(getExpectedResponse().getContent().get(0).getId())).thenReturn(Optional.of(getExpectedResponse().getContent().get(0)));
         mockMvc.perform(get("/rp/orders/eb7a8d0b-7c57-4b24-a426-c24578a65aea"))
@@ -129,4 +157,5 @@ class OrderServiceControllerTest {
                 OrderServiceEntity.builder().id(UUID.fromString("85347581-aa87-41bb-8afb-3f6677833563")).client(createClient()).status(OrderStatus.PENDING).responsible("Tec_2").build()
         ));
     }
+
 }

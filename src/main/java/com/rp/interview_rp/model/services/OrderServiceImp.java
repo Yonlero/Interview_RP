@@ -1,6 +1,7 @@
 package com.rp.interview_rp.model.services;
 
 import com.rp.interview_rp.dtos.OrderServiceDTO;
+import com.rp.interview_rp.dtos.OrderServiceStatusOnly;
 import com.rp.interview_rp.model.entities.OrderServiceEntity;
 import com.rp.interview_rp.model.exceptions.NotFoundException;
 import com.rp.interview_rp.model.repositories.IOrderServiceRepository;
@@ -58,5 +59,13 @@ public record OrderServiceImp(IOrderServiceRepository repository) implements ISe
         this.findConsultOrderServiceById(updateOrder.getId());
         OrderServiceEntity newOrderEntity = convertOrderDtoToEntity(updateOrder);
         return convertOrderEntityToDto(repository.save(newOrderEntity));
+    }
+
+    @Override
+    public OrderServiceDTO updateOrderServiceStatusOnly(OrderServiceStatusOnly serviceStatusOnly) {
+        requireNonNull(serviceStatusOnly, "The request body is mandatory and can't be null");
+        OrderServiceEntity orderService = convertOrderDtoToEntity(this.findConsultOrderServiceById(serviceStatusOnly.getId()));
+        orderService.setStatus(serviceStatusOnly.getStatus());
+        return convertOrderEntityToDto(repository.save(orderService));
     }
 }

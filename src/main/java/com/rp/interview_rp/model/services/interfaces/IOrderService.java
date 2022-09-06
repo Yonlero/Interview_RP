@@ -1,6 +1,7 @@
 package com.rp.interview_rp.model.services.interfaces;
 
 import com.rp.interview_rp.dtos.OrderServiceDTO;
+import com.rp.interview_rp.dtos.OrderServiceStatusOnly;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,6 @@ public interface IOrderService {
     OrderServiceDTO createNewOrderService(OrderServiceDTO newOrder);
 
     OrderServiceDTO updateOrderService(OrderServiceDTO orderServiceDTO);
+
+    OrderServiceDTO updateOrderServiceStatusOnly(OrderServiceStatusOnly serviceStatusOnly);
 }

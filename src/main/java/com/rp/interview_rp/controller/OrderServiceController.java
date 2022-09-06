@@ -3,6 +3,7 @@ package com.rp.interview_rp.controller;
 import com.rp.interview_rp.controller.interfaces.IController;
 import com.rp.interview_rp.controller.interfaces.IOrderServiceController;
 import com.rp.interview_rp.dtos.OrderServiceDTO;
+import com.rp.interview_rp.dtos.OrderServiceStatusOnly;
 import com.rp.interview_rp.model.exceptions.NullEntityException;
 import com.rp.interview_rp.model.services.OrderServiceImp;
 import com.rp.interview_rp.model.services.interfaces.IOrderService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -77,15 +79,29 @@ public class OrderServiceController implements IController, IOrderServiceControl
     @Override
     @PutMapping("/update")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Create a new order and return it"),
+            @ApiResponse(responseCode = "200", description = "Update a existent order"),
             @ApiResponse(responseCode = "204", description = "Invalid Body")
     })
     public ResponseEntity<OrderServiceDTO> putUpdateOrderService(@Valid @RequestBody OrderServiceDTO orderServiceDTO) {
-        log.info("Updating a new order - OrderController");
+        log.info("Updating a existent order - OrderController");
         if (orderServiceDTO.getClient() == null || orderServiceDTO.getResponsible() == null || orderServiceDTO.getId() == null) {
             throw new NullEntityException("Check your body fields,Order_Id, Client ID and Responsible can't be null");
         }
         return ResponseEntity.ok(service.updateOrderService(orderServiceDTO));
+    }
+
+    @Override
+    @PatchMapping("/updatestatus/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Update just order status"),
+            @ApiResponse(responseCode = "204", description = "Invalid Body")
+    })
+    public ResponseEntity<OrderServiceDTO> patchUpdateOrderServiceStatus(@Valid @RequestBody OrderServiceStatusOnly serviceStatusOnly, @PathVariable String id) {
+        log.info("Updating a existent status order - OrderController");
+        if (serviceStatusOnly.getId() == null || serviceStatusOnly.getStatus() == null) {
+            throw new NullEntityException("Check your body fields,Order_Id and Status can't be null");
+        }
+        return ResponseEntity.ok(service.updateOrderServiceStatusOnly(serviceStatusOnly));
     }
 
     @Override

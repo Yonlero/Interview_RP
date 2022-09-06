@@ -12,6 +12,5 @@ import java.util.UUID;
 @Repository
 public interface IOrderServiceRepository extends PagingAndSortingRepository<OrderServiceEntity, UUID> {
     Page<OrderServiceEntity> findAll(Pageable pageable);
-
     Page<OrderServiceEntity> findAllByStatusIs(Pageable pageable, OrderStatus status);
 }
